@@ -108,6 +108,7 @@ DAYS = [
 "tasks": [
   "Yangi loyiha bo'yicha o'lchov yoki uchrashuvdan keyin (yoki oldingi loyiha materiallari bilan) suratga oling.",
   "Mijozning yuzi, ismi, manzilini ko'rsatmang. Ruxsatsiz ichki rasmlarni ko'rsatmang.",
+  "Oxirida 1 jumla qo'shing: «Viloyatdan bo'lsangiz ham, loyihani onlayn qilamiz» — obunachilaringizning ko'pchiligi Toshkentdan tashqarida (Audit).",
 ],
 "hook": "«Bugun yangi loyiha boshlandi. Ko'rsataman: birinchi haftada nima qilinadi.»",
 "show": "O'lchov eskizi, brif qaydlari, reja varianti boshlanishi, kalendardagi rejalar.",
@@ -138,7 +139,7 @@ DAYS = [
 "caption": "Yangi loyiha boshlandi.\n\nBirinchi hafta:\n1. O'lchov\n2. Brif — oila, odatlar, ehtiyojlar\n3. Mebel joylashuvining 2–3 varianti\n4. Muhokama va tanlov\n\nShundan keyingina 3D va chizmalar.\n\nLoyiha qanday davom etishini kuzatib boring.\n\n#yangiloyiha #dizaynjarayon #arxitektor #interyer",
 "cta": "Loyiha davomini kuzatib boring. Savolingiz bo'lsa — Direct.",
 "story": {"idea": "Kun davomida o'lchov va ish jarayonidan 3–4 Story.", "text": "«Yangi loyiha: 1-kun. O'lchov.»", "sticker": "Savol stikeri: «Loyiha jarayoni haqida nima bilmoqchisiz?»"},
-"tg": {"title": "Birinchi konsultatsiyada nimalar muhokama qilinadi", "text": "Konsultatsiya tartibi: tanishuv, obyekt, ehtiyojlar, byudjet diapazoni, muddat, xizmat turlari (to'liq loyiha / qisman / mualliflik nazorati), keyingi qadamlar. Qancha vaqt oladi va oldindan nima tayyorlash kerak.", "media": "Eskiz va bloknot fotosi.", "cta": "«Konsultatsiyaga yozilish uchun — [Telegram username].»"},
+"tg": {"title": "Birinchi konsultatsiyada nimalar muhokama qilinadi", "text": "Konsultatsiya tartibi: tanishuv, obyekt, ehtiyojlar, byudjet diapazoni, muddat, xizmat turlari (to'liq loyiha / qisman / mualliflik nazorati), keyingi qadamlar. Qancha vaqt oladi va oldindan nima tayyorlash kerak.", "media": "Eskiz va bloknot fotosi.", "cta": "«Konsultatsiyaga yozilish uchun — @HayitovBobur.»"},
 },
 {
 "n": 26, "type": "Foto + Stories", "pillar": "B · Foydali / D · Jonli", "reel": None,
@@ -213,7 +214,7 @@ DAYS = [
 "caption": "Tanlangan loyihalar.\n\n1. [Loyiha 1: turi, shahar]\n2. [Loyiha 2]\n3. [Loyiha 3]\n\nHar birida — reja, 3D vizualizatsiya, ishchi chizmalar [va mualliflik nazorati].\n\nLoyihangizni muhokama qilish uchun Direct'ga yozing.\n\n#portfolio #interyerdizayn #arxitektor #uzbekistan",
 "cta": "Loyihangizni muhokama qilish uchun Direct'ga yozing.",
 "story": {"idea": "Yangilangan Highlights'ni ko'rsating.", "text": "«Profilimda yangi bo'limlar: Loyihalar, Jarayon, Narx va xizmatlar, FAQ.»", "sticker": "Profilga havola"},
-"tg": {"title": "Portfolio: tanlangan loyihalar", "text": "Har loyiha uchun 3 jumla + albom. Pin qiling.", "media": "3 ta albom.", "cta": "«Konsultatsiya uchun — [username].»"},
+"tg": {"title": "Portfolio: tanlangan loyihalar", "text": "Har loyiha uchun 3 jumla + albom. Pin qiling.", "media": "3 ta albom.", "cta": "«Konsultatsiya uchun — @HayitovBobur.»"},
 "weekly": True,
 },
 {
@@ -275,7 +276,7 @@ DAYS = [
   "Ikkinchi savol: [savol]. Javob: [qisqa javob].",
   "Uchinchi savol: [savol]. Javob: [qisqa javob].",
   "Bu oy men har kuni ishimni va bilimimni ko'rsatishga harakat qildim. Keyingi oyda — [reja: masalan, bitta loyihani boshidan oxirigacha kuzatish].",
-  "Agar uyingiz yoki obyektingiz bo'yicha savol bo'lsa — Direct'ga yozing. Birinchi qisqa konsultatsiyada vazifangizni muhokama qilamiz.",
+  "Agar uyingiz yoki obyektingiz bo'yicha savol bo'lsa — Direct'ga yozing. Bepul konsultatsiyada vazifangizni muhokama qilamiz.",
 ],
 "camera": "Shtativ, ish stolida, 1-kundagi bilan bir xil kompozitsiya (30 kunlik «aylana» tuyg'usi).",
 "shots": ["Kamera oldida 5 bo'lak", "Savollar skrinshoti (ismsiz)", "Javoblarga mos render/chizma"],

@@ -110,3 +110,7 @@ ul.num { list-style: none; padding-left: 0; }
 .dm .a { padding: 5px 8px; }
 table.fill.sm td:nth-child(2), table.fill.sm th:nth-child(2) { width: 42% !important; border-left: none; }
 table.fill.sm td:first-child { width: 6%; }
+.toc a .pg { color: var(--mid); font-variant-numeric: tabular-nums; }
+.biotxt { font-family: "Inter", "DejaVu Sans", "Noto Color Emoji", sans-serif; }
+h3, h4, .lbl.sec, .chapter-head { break-after: avoid; page-break-after: avoid; }
+.keep { break-inside: avoid; page-break-inside: avoid; }

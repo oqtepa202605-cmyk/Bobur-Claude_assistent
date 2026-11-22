@@ -40,7 +40,7 @@ DAYS = [
 "caption": "Vazifa → yechim → natija.\n\n[Obyekt turi, shahar]. Mijozning savoli: [savol].\n\nAsosiy qarorlar:\n1. [qaror 1]\n2. [qaror 2]\n3. [qaror 3]\n\nHar bir qaror avval rejada va 3D'da tekshirildi.\n\nSizda ham shunday vazifa bormi? Direct'ga yozing.\n\n#loyiha #interyerdizayn #keys #arxitektor",
 "cta": "Sizda ham shunday vazifa bormi? Direct'ga yozing.",
 "story": {"idea": "Loyihadan 3 ta Story: «oldin», «jarayon», «natija» + havola Reelsga.", "text": "«Bu loyiha haqida to'liq video profilda. Savollaringiz bo'lsa — yozing.»", "sticker": "Reelsga havola"},
-"tg": {"title": "Keys: [loyiha nomi] — to'liq tahlil", "text": "Uzun post (longread): mijoz vazifasi, cheklovlar (byudjet doirasi, muddat, konstruksiya), ko'rib chiqilgan variantlar, nima uchun aynan shu variant tanlangan, ishlatilgan materiallar, natija. Telegram — batafsil tahlil uchun asosiy joy.", "media": "Albom 6–10 rasm: oldin, reja, render, natija.", "cta": "«Shunga o'xshash loyiha uchun konsultatsiya kerak bo'lsa — [Telegram username]ga yozing.»"},
+"tg": {"title": "Keys: [loyiha nomi] — to'liq tahlil", "text": "Uzun post (longread): mijoz vazifasi, cheklovlar (byudjet doirasi, muddat, konstruksiya), ko'rib chiqilgan variantlar, nima uchun aynan shu variant tanlangan, ishlatilgan materiallar, natija. Telegram — batafsil tahlil uchun asosiy joy.", "media": "Albom 6–10 rasm: oldin, reja, render, natija.", "cta": "«Shunga o'xshash loyiha uchun konsultatsiya kerak bo'lsa — @HayitovBoburga yozing.»"},
 },
 {
 "n": 16, "type": "Carousel", "pillar": "B · Foydali", "reel": None,

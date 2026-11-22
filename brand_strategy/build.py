@@ -190,6 +190,127 @@ def reel_score_table():
             + rows + "</table>")
 
 
+# ---------------------------------------------------------------- AUDIT (real Instagram ma'lumotlari)
+def hbar(items, total, w=470, row=17, lab=120, maxv=None, fmt=lambda v, t: f"{v} · {v/t*100:.0f}%"):
+    maxv = maxv or max(v for _, v in items)
+    scale = (w - lab - 80) / maxv
+    out = [f'<svg viewBox="0 0 {w} {len(items)*row+4}" class="chart" role="img">']
+    for i, (name, v) in enumerate(items):
+        y = i * row + 2
+        out.append(f'<text x="0" y="{y+10}" class="cl">{html.escape(name, quote=False)}</text>')
+        out.append(f'<rect x="{lab}" y="{y+1}" width="{max(v*scale,1):.1f}" height="11" fill="#111"/>')
+        out.append(f'<text x="{lab+v*scale+5:.1f}" y="{y+10}" class="cv">{fmt(v, total)}</text>')
+    out.append("</svg>")
+    return "".join(out)
+
+
+def spark(vals, w=470, h=60):
+    n, mx = len(vals), max(max(vals), 1)
+    bw = w / n
+    out = [f'<svg viewBox="0 0 {w} {h+14}" class="chart" role="img">',
+           f'<line x1="0" x2="{w}" y1="{h}" y2="{h}" stroke="#bbb"/>']
+    for i, v in enumerate(vals):
+        bh = v / mx * (h - 12)
+        out.append(f'<rect x="{i*bw+1:.1f}" y="{h-bh:.1f}" width="{bw-2:.1f}" height="{bh:.1f}" fill="#111"/>')
+        if v:
+            out.append(f'<text x="{i*bw+bw/2:.1f}" y="{h-bh-2:.1f}" class="cv" text-anchor="middle">{v}</text>')
+    out.append(f'<text x="0" y="{h+11}" class="cv g">23-okt</text><text x="{w}" y="{h+11}" class="cv g" text-anchor="end">21-noy</text></svg>')
+    return "".join(out)
+
+
+def n(x):
+    return f"{x:,}".replace(",", "\u00a0")
+
+
+def audit_html():
+    from audit_data import (FETCHED, PERIOD, PROFILE, DAILY, GENDER_AGE, CITIES,
+                            TASHKENT_REGION, ABROAD)
+    P = PROFILE
+    total = sum(GENDER_AGE.values())
+    g = {k: sum(v for kk, v in GENDER_AGE.items() if kk[0] == k) for k in "FMU"}
+    ages = ["13-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"]
+    age = [(a, sum(v for kk, v in GENDER_AGE.items() if kk.endswith("." + a))) for a in ages]
+    known = g["F"] + g["M"]
+    c_total = sum(CITIES.values())
+    tsh = CITIES["Toshkent"]
+    tsh_reg = sum(CITIES[c] for c in TASHKENT_REGION)
+    abroad = sum(CITIES[c] for c in ABROAD)
+    regions = c_total - tsh - tsh_reg - abroad
+    top = sorted(CITIES.items(), key=lambda x: -x[1])[:12]
+    reach, views = sum(DAILY["reach"]), sum(DAILY["views"])
+    newf = sum(DAILY["new_followers"])
+    a2534 = dict(age)["25-34"]
+    a1824 = dict(age)["18-24"]
+    a3544 = dict(age)["35-44"]
+    bio = html.escape(P["biography"], quote=False).replace("\n", "<br>")
+    return f'''
+<section class="chapter" id="audit">
+  <div class="chapter-head"><div class="no">A</div><div><h2>Audit: @{P["username"]}</h2><div class="sub">Instagram API ma'lumotlari · olingan sana: {FETCHED} · davr: {PERIOD}</div></div></div>
+  <div class="warn"><b>Manba va cheklov.</b> Quyidagi raqamlar akkauntingizga ulangan Windsor.ai orqali Instagram API'dan olingan — taxmin emas. Ammo tarif faqat oxirgi 30 kun ma'lumotini beradi: profildagi 3 ta postning o'zi (mavzusi, ko'rishlar, saqlashlar) bu davrga kirmagani uchun ko'rilmadi. Shuning uchun postlaringiz mazmuni haqida xulosa yozilmagan.</div>
+  <h3>Profil — hozirgi holat</h3>
+  <table>
+    <tr><td style="width:32%">Username</td><td><b>@{P["username"]}</b></td></tr>
+    <tr><td>Name</td><td>{html.escape(P["name"])}</td></tr>
+    <tr><td>Bio</td><td class="biotxt">{bio}</td></tr>
+    <tr><td>Havola</td><td>{P["website"]}</td></tr>
+    <tr><td>Obunachilar / obunalar</td><td><b>{n(P["followers"])}</b> / {P["follows"]}</td></tr>
+    <tr><td>Postlar soni</td><td><b>{P["media"]}</b></td></tr>
+  </table>
+  <div class="three">
+    <div class="stat"><b>{n(P["followers"])}</b><span class="small">obunachi</span></div>
+    <div class="stat"><b>{P["media"]}</b><span class="small">post profilda</span></div>
+    <div class="stat"><b>{reach}</b><span class="small">qamrov, 30 kun (kunlik yig'indi)</span></div>
+  </div>
+  <h3>Oxirgi 30 kun faolligi</h3>
+  <p>Ko'rishlar (views) kunlar bo'yicha — jami <b>{views}</b>. Shu davrda: yangi post — <b>{DAILY["posts_in_period"]}</b>, yangi obunachi — <b>{newf}</b>, layk — {DAILY["likes"]}, izoh — {DAILY["comments"]}, saqlash — {DAILY["saves"]}, ulashish — {DAILY["shares"]}, profil tugmalari bosilishi — {DAILY["profile_links_taps"]}.</p>
+  {spark(DAILY["views"])}
+  <div class="note"><b>Xulosa:</b> akkaunt «uxlab yotgan» holatda. {n(P["followers"])} obunachi bor, lekin 30 kun ichida yangi kontent chiqmagani uchun Instagram ularga deyarli hech narsa ko'rsatmagan. Bu yomon yangilik emas: strategiya «noldan» emas, tayyor obunachilar bazasidan boshlanadi. Lekin obunachilarning bir qismi faol bo'lmasligi mumkin — birinchi Reels'lar asosan obunachi bo'lmaganlarga tarqalishini kuting.</div>
+
+  <h3>Auditoriya: yosh</h3>
+  <p class="small">{n(total)} obunachi bo'yicha (Instagram jins/yosh ma'lumoti).</p>
+  {hbar(age, total)}
+  <h3>Auditoriya: jins</h3>
+  <p>Jinsi ko'rsatilgan {known} obunachidan <b>{g["M"]/known*100:.0f}% erkak</b>, {g["F"]/known*100:.0f}% ayol. Qolgan {n(g["U"])} ({g["U"]/total*100:.0f}%) obunachining jinsi Instagram'da ko'rsatilmagan — shuning uchun bu nisbat taxminiy.</p>
+  <h3>Auditoriya: shaharlar (top-12)</h3>
+  <p class="small">API {len(CITIES)} ta shahar bo'yicha {n(c_total)} obunachini ko'rsatdi; foizlar shu songa nisbatan.</p>
+  {hbar(top, c_total)}
+  <table class="keep">
+    <tr><th>Hudud</th><th>Obunachi</th><th>Ulush</th></tr>
+    <tr><td>Toshkent shahri</td><td>{tsh}</td><td>{tsh/c_total*100:.0f}%</td></tr>
+    <tr><td>Toshkent viloyati (Salar, O'rtaovul, Chirchiq, Qibray, Yangiyo'l)</td><td>{tsh_reg}</td><td>{tsh_reg/c_total*100:.0f}%</td></tr>
+    <tr><td>Boshqa viloyatlar</td><td>{regions}</td><td>{regions/c_total*100:.0f}%</td></tr>
+    <tr><td>Xorij (Moskva, Bishkek, Dushanbe)</td><td>{abroad}</td><td>{abroad/c_total*100:.0f}%</td></tr>
+  </table>
+
+  <h3>Nima yaxshi</h3>
+  <ul>
+    <li><b>Ism + kasb</b> Name maydonida: «Bobur Hayitov | Arxitektor» — qidiruvda topiladi va ishonch beradi.</li>
+    <li><b>«5 yillik tajriba»</b> — aniq, tekshiriladigan ishonch belgisi.</li>
+    <li><b>Aniq CTA:</b> «Bepul konsultatsiya uchun Direct'ga yozing».</li>
+    <li><b>Asosiy auditoriya to'g'ri yoshda:</b> 25–34 yosh — {a2534/total*100:.0f}%, 35–44 — {a3544/total*100:.0f}%. Bu uy-joy olayotgan, ta'mir va qurilish qilayotgan yosh — sizning mijozingiz.</li>
+  </ul>
+  <h3>Kamchiliklar va ularning yechimi</h3>
+  <table>
+    <tr><th>Kamchilik</th><th>Nima uchun muhim</th><th>Yechim (strategiyada)</th></tr>
+    <tr><td><b>Profilda atigi {P["media"]} ta post</b></td><td>Profilga kirgan odam portfolio ko'rmaydi va yozmasdan chiqib ketadi.</td><td>9-kungacha profil to'rida 9 ta post (3 qator) bo'ladi. Ilk postlar — render/real va oldin/keyin.</td></tr>
+    <tr><td><b>30 kunda yangi kontent yo'q</b></td><td>Algoritm akkauntni «faol emas» deb hisoblaydi.</td><td>Har kuni Story va har 1–2 kunda Reels.</td></tr>
+    <tr><td><b>Bio'da maxsus Unicode «qalin» shrift</b></td><td>Qidiruvda so'z sifatida o'qilmaydi, ayrim telefonlarda kvadratcha bo'lib ko'rinadi.</td><td>Oddiy harflar bilan yangi bio — 6-bo'lim.</td></tr>
+    <tr><td><b>Bio'da shahar va jarayon yo'q</b></td><td>Mijoz siz uning shahrida ishlaysizmi va nima olishini bilmaydi.</td><td>«Toshkent» + «Reja → 3D → chizma → nazorat».</td></tr>
+    <tr><td><b>Havola faqat shaxsiy Telegram'ga</b></td><td>Foydali kontent uchun kanal yo'q — obunachini «ushlab qoladigan» joy kerak.</td><td>Telegram kanal + shaxsiy havola (5 ta havola imkoniyati).</td></tr>
+    <tr><td><b>18–24 yosh — {a1824/total*100:.0f}%</b></td><td>Bu qismning ko'pi talaba va yosh mutaxassislar bo'lishi mumkin — ular mijoz emas.</td><td>Kontent fokusi — uy egalari. Dasturlar haqidagi videolar soni cheklangan (10%).</td></tr>
+  </table>
+  <h3>Strategiyaga kiritilgan o'zgarishlar</h3>
+  <ol>
+    <li><b>Viloyatlar uchun onlayn xizmat.</b> Obunachilarning {regions/c_total*100:.0f}% qismi Toshkentdan tashqarida. Masofadan loyiha (o'lchovni mijoz yoki usta qiladi, siz reja, 3D va chizma berasiz) — alohida taklif. Uni 25-kun videosi va DM ssenariylarida ishlating, «Xizmatlar» highlights'iga qo'shing.</li>
+    <li><b>Xorijdagi vatandoshlar</b> ({abroad} obunachi — Moskva, Bishkek, Dushanbe): kichik, lekin mantiqiy segment — chet elda ishlab, O'zbekistonda uy qurayotganlar. Bu taxmin: DM'da qayerdan yozishayotganini kuzatib tekshiring.</li>
+    <li><b>Eksteryer ham bor.</b> Bio'ingizda «Eksteryer» yozilgan — 15-kun (keys), 22-kun (oldin/keyin) va 29-kun («Chiziqdan hayotga») videolarini fasad yoki xususiy uy loyihasi bilan ham qilish mumkin.</li>
+    <li><b>«Bepul konsultatsiya»</b> — barcha CTA va DM ssenariylarida bir xil ishlatildi (bio'dagi va'dangizga mos).</li>
+    <li><b>Telegram:</b> barcha CTA'larda @HayitovBobur ko'rsatildi.</li>
+    <li><b>KPI'ning 0-kun ustuni</b> real raqamlar bilan to'ldirildi (14-bo'lim).</li>
+  </ol>
+</section>'''
+
+
 # ---------------------------------------------------------------- MATN BO'LIMLARI
 STATIC = (ROOT / "sections.html").read_text(encoding="utf-8")
 
@@ -198,6 +319,14 @@ def build():
     reels = sum(1 for d in DAYS if d.get("reel"))
     inter = sum(1 for d in DAYS if "interaktiv" in d["story"]["sticker"].lower())
     body = STATIC
+    body = body.replace("{{AUDIT}}", audit_html())
+    pages = {}
+    pf = ROOT / "out" / "toc_pages.json"
+    if pf.exists():
+        import json
+        pages = json.loads(pf.read_text())
+    body = re.sub(r'(<a href="#(\w+)"><span>.*?</span>)(</a>)',
+                  lambda m: f'{m.group(1)}<span class="pg">{pages.get(m.group(2), "")}</span>{m.group(3)}', body)
     body = body.replace("{{PILLAR_CHART}}", pillar_chart())
     body = body.replace("{{WEEK_CHART}}", week_chart())
     body = body.replace("{{CALENDAR}}", calendar_table())
